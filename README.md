@@ -10,7 +10,7 @@ A project to simulate a high number of Devices that are creating Cumulocity MEAs
 
 * You can define the data sent in each interval in `collectFunctions()` function in `/pkg/app/device.go`
 
-* To build the project, have a look in the `justfile`. A build for macOs on ARM CPUs would be `CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o c8y-device-simulator main.go`, it will place an executable in your current directory
+* To build the project, have a look in the `justfile`. A build for macOs on ARM CPUs would be `CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o c8y-device-simulator main.go`, it will place an executable in your current directory
 
 * Now create below `.env` file in your current directory (it tells the script your Cumulocity Tenant and User):
 
