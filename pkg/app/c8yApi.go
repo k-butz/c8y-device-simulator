@@ -20,21 +20,20 @@ type MeasurementCreateArg struct {
 }
 
 func CreateMeasurement(arg MeasurementCreateArg) (*c8y.Response, *c8y.Measurement, error) {
-	json := `{"type":"sim"}`
+	json := `{}`
 	json, _ = sjson.Set(json, "source.id", arg.deviceId)
-	for _, series := range arg.seriesFloats {
-		sjson.Set(json, series.Fragment+"."+series.Series+".value", series.Value)
-		if len(series.Unit) > 0 {
-			sjson.Set(json, series.Fragment+"."+series.Series+".unit", series.Unit)
-		}
-	}
+	json, _ = sjson.Set(json, "type", arg.measurementType)
 	mTime := arg.time
 	if mTime.IsZero() {
 		mTime = time.Now()
 	}
 	json, _ = sjson.Set(json, "time", ToRFCTimeStamp(mTime))
-	json, _ = sjson.Set(json, "c8y_Temperature.T.value", RandFloat(1, 100, 0))
-	json, _ = sjson.Set(json, "c8y_Pressure.P.value", RandFloat(1, 100, 0))
+	for _, series := range arg.seriesFloats {
+		json, _ = sjson.Set(json, series.Fragment+"."+series.Series+".value", series.Value)
+		if len(series.Unit) > 0 {
+			json, _ = sjson.Set(json, series.Fragment+"."+series.Series+".unit", series.Unit)
+		}
+	}
 
 	createdMeasurement := new(c8y.Measurement)
 	resp, err := arg.client.SendRequest(context.Background(), c8y.RequestOptions{
@@ -50,7 +49,7 @@ func CreateMeasurement(arg MeasurementCreateArg) (*c8y.Response, *c8y.Measuremen
 		return &c8y.Response{}, createdMeasurement, errors.New("Platform response is nil")
 	}
 	if resp.StatusCode() != http.StatusCreated {
-		return &c8y.Response{}, createdMeasurement, fmt.Errorf("Received unexpected status code: %s", resp.StatusCode())
+		return &c8y.Response{}, createdMeasurement, fmt.Errorf("Received unexpected status code: %d", resp.StatusCode())
 	}
 	return resp, createdMeasurement, nil
 }

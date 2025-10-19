@@ -71,8 +71,10 @@ func collectFunctions(device *Device) []func() {
 			deviceId:        device.C8yDeviceId,
 			measurementType: "simulated",
 			seriesFloats: []MeasurementSeriesFloat{
-				NewMeasurementSeriesFloatRandomized("c8y_Temperature", "T", "", 0, 100, 5),
-				NewMeasurementSeriesFloatRandomized("c8y_Pressure", "P", "", 0, 100, 0),
+				// creates a random value between 0 and 100
+				NewMeasurementSeriesFloatRandomized("c8y_Temperature", "T", "", 0, 100, 0),
+				// creates a random value of 100 +- 5%
+				NewMeasurementSeriesFloatRandomized("c8y_Pressure", "P", "", 100, 100, 5),
 			},
 		})
 		if err != nil {
