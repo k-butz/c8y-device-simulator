@@ -24,8 +24,9 @@ func NewDevice(id string, client *c8y.Client) *Device {
 	}
 }
 
-func (device *Device) Run(intervalMs int, waitFirstExecution bool) {
+func (device *Device) Run(intervalMs, initialWaitTimeMs int, firstExecuteOnSchedule bool) {
 	go func() {
+		time.Sleep(time.Duration(initialWaitTimeMs) * time.Millisecond)
 		// setup ticker in provided interval
 		interval := time.Duration(intervalMs) * time.Millisecond
 		ticker := time.NewTicker(interval)
@@ -44,7 +45,7 @@ func (device *Device) Run(intervalMs int, waitFirstExecution bool) {
 			}
 		}
 
-		if !waitFirstExecution {
+		if firstExecuteOnSchedule {
 			tickFunction()
 		}
 
@@ -107,11 +108,11 @@ func (d *Device) incrementTick() {
 	d.currentTick += 1
 }
 
-func (d *Device) InitC8yDevice() error {
+func (d *Device) InitC8yDevice() (bool, error) {
 	identity, _, err := d.client.Identity.GetExternalID(context.Background(), "c8y_Serial", d.Serial)
 	if err == nil && identity != nil && len(identity.ExternalID) > 0 {
 		d.C8yDeviceId = identity.ManagedObject.ID
-		return nil
+		return false, nil
 	}
 
 	mo, _, err := d.client.Inventory.Create(context.Background(), &c8y.Device{
@@ -122,20 +123,20 @@ func (d *Device) InitC8yDevice() error {
 		DeviceFragment: c8y.DeviceFragment{},
 	})
 	if err != nil {
-		return err
+		return true, err
 	}
 	if mo == nil || len(mo.ID) == 0 {
-		return fmt.Errorf("Newly created Managed Object for Serial %s is null", d.Serial)
+		return true, fmt.Errorf("Newly created Managed Object for Serial %s is null", d.Serial)
 	}
 	newExtId, _, err := d.client.Identity.Create(context.Background(), mo.ID, "c8y_Serial", d.Serial)
 	if err != nil {
-		return err
+		return true, err
 	}
 	if newExtId == nil || len(newExtId.ExternalID) == 0 {
-		return fmt.Errorf("Created Managed Object with ID %s, but failed to created external ID for it", mo.ID)
+		return true, fmt.Errorf("Created Managed Object with ID %s, but failed to created external ID for it", mo.ID)
 	}
 
 	d.C8yDeviceId = mo.ID
 
-	return nil
+	return true, nil
 }

@@ -26,25 +26,29 @@ func main() {
 	// requires env vars: C8Y_HOST, C8Y_TENANT, C8Y_USER, C8Y_PASSWORD
 	client := c8y.NewClientFromEnvironment(nil, false)
 
-	// could be used to onboard in batches
-	ctWorkersRampUp := 1
+	// onboard devices in a batch of 3
+	ctWorkersRampUp := 3
 	rill.ForEach(generateRillChan(0, viper.GetInt("countDevices")), ctWorkersRampUp, func(i int) error {
 		device := app.NewDevice(fmt.Sprintf(viper.GetString("deviceIdTemplate"), i), client)
 
 		// Queries device id for serial, creates new device if not existing
-		if err := device.InitC8yDevice(); err != nil {
+		createdMo, err := device.InitC8yDevice()
+		if err != nil {
 			slog.Error("Error while initializing C8Y Device ID. Skipping this Device", "serial", device.Serial, "err", err)
 			return nil
 		}
 
 		intervalMs := viper.GetInt("deviceSendingIntervalMs")
+		initialWaitTimeMs := i * 100
 		// non-blocking routine to start device simulation
-		device.Run(intervalMs, false)
+		device.Run(intervalMs, initialWaitTimeMs, false)
 
 		slog.Info("Created Device simulation",
 			"serial", device.Serial,
+			"createdMo", createdMo,
 			"c8yDeviceId", device.C8yDeviceId,
 			"intervalMs", intervalMs,
+			"initialWaitTimeMs", initialWaitTimeMs,
 		)
 
 		// having wait time is recommended to flatten data ingestion curve
