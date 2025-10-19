@@ -4,6 +4,8 @@ github.com/common-nighthawk/go-figure v0.0.0-20200609044655-c4b36f998cf2 h1:tjT4
 github.com/common-nighthawk/go-figure v0.0.0-20200609044655-c4b36f998cf2/go.mod h1:mk5IQ+Y0ZeO87b858TlA645sVcEcbiX6YqP98kt+7+w=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/destel/rill v0.8.0 h1:PzWvw4Du+9SUy87riG/Ef4GHQpYX8qDtPMYzu40Lqvw=
+github.com/destel/rill v0.8.0/go.mod h1:srKuXzvGqINUEGYR5b/iwvW+L9/S35RxVHWGYbXNoO4=
 github.com/dimiro1/banner v1.1.0 h1:TSfy+FsPIIGLzaMPOt52KrEed/omwFO1P15VA8PMUh0=
 github.com/dimiro1/banner v1.1.0/go.mod h1:tbL318TJiUaHxOUNN+jnlvFSgsh/RX7iJaQrGgOiTco=
 github.com/frankban/quicktest v1.14.6 h1:7Xjx+VpznH+oBnejlPUj8oUpdxnVs4f8XU8WnHkI4W8=

@@ -1,3 +1,4 @@
 *.env
 .env
 dist/
+c8y-device-simulator-darwin-arm64

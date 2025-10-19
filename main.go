@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/destel/rill"
 	"github.com/joho/godotenv"
 	"github.com/kbutz/c8y-device-simulator/pkg/app"
 	"github.com/spf13/viper"
@@ -25,18 +26,20 @@ func main() {
 	// requires env vars: C8Y_HOST, C8Y_TENANT, C8Y_USER, C8Y_PASSWORD
 	client := c8y.NewClientFromEnvironment(nil, false)
 
-	for i := range viper.GetInt("countDevices") {
+	// could be used to onboard in batches
+	ctWorkersRampUp := 1
+	rill.ForEach(generateRillChan(0, viper.GetInt("countDevices")), ctWorkersRampUp, func(i int) error {
 		device := app.NewDevice(fmt.Sprintf(viper.GetString("deviceIdTemplate"), i), client)
 
 		// Queries device id for serial, creates new device if not existing
 		if err := device.InitC8yDevice(); err != nil {
 			slog.Error("Error while initializing C8Y Device ID. Skipping this Device", "serial", device.Serial, "err", err)
-			continue
+			return nil
 		}
 
 		intervalMs := viper.GetInt("deviceSendingIntervalMs")
 		// non-blocking routine to start device simulation
-		device.Run(intervalMs, true)
+		device.Run(intervalMs, false)
 
 		slog.Info("Created Device simulation",
 			"serial", device.Serial,
@@ -46,10 +49,19 @@ func main() {
 
 		// having wait time is recommended to flatten data ingestion curve
 		time.Sleep(time.Duration(viper.GetInt("deviceAddWaitTimeMs")) * time.Millisecond)
-	}
+		return nil
+	})
 
 	// keep main routine alive
 	select {}
+}
+
+func generateRillChan(min, max int) <-chan rill.Try[int] {
+	slice := []int{}
+	for i := min; i < max; i++ {
+		slice = append(slice, i)
+	}
+	return rill.FromSlice(slice, nil)
 }
 
 func loadEnvFile() {

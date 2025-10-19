@@ -4,7 +4,7 @@ run:
     go run main.go
 
 build:
-    CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o c8y-device-simulator main.go
+    CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o c8y-device-simulator-darwin-arm64 main.go
 
 build-all:
     goreleaser release --snapshot --clean

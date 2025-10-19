@@ -5,6 +5,7 @@ go 1.25.2
 require github.com/reubenmiller/go-c8y v0.37.6
 
 require (
+	github.com/destel/rill v0.8.0
 	github.com/joho/godotenv v1.5.1
 	github.com/spf13/viper v1.21.0
 	github.com/tidwall/sjson v1.2.5
