@@ -1,0 +1,29 @@
+{
+    "apiVersion": "v2",
+    "name": "c8y-device-simulator",
+    "version": "0.0.1-SNAPSHOT",
+    "provider": {
+        "name": "Korbinian Butz",
+        "domain": "https://cumulocity.com",
+        "support": "korbinian.butz@cumulocity.com"
+    },
+    "isolation": "PER_TENANT",
+    "scale": "AUTO",
+    "replicas": 1,
+    "requiredRoles": [
+        "ROLE_INVENTORY_READ",
+        "ROLE_INVENTORY_CREATE",
+        "ROLE_MEASUREMENT_ADMIN",
+        "ROLE_IDENTITY_READ",
+        "ROLE_IDENTITY_ADMIN"
+    ],
+    "roles": [],
+    "requestedResources": {
+        "cpu": "0.5",
+        "memory": "128Mi"
+    },
+    "resources": {
+        "cpu": "0.5",
+        "memory": "128Mi"
+    }
+}

@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	"github.com/kbutz/c8y-device-testing/pkg/app"
+	"github.com/kbutz/c8y-device-simulator/pkg/app"
 	"github.com/spf13/viper"
 
 	_ "github.com/dimiro1/banner/autoload"

@@ -1,4 +1,4 @@
-module github.com/kbutz/c8y-device-testing
+module github.com/kbutz/c8y-device-simulator
 
 go 1.25.2
 
