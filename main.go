@@ -71,22 +71,22 @@ func generateRillChan(min, max int) <-chan rill.Try[int] {
 func loadEnvFile() {
 	err := godotenv.Load()
 	if err != nil {
-		slog.Error("Error loading .env file", "err", err)
+		slog.Info(".env file not present")
 	}
 }
 
 func loadConfig() {
-	viper.SetConfigName("config")
+	viper.SetConfigName("config.toml")
 	viper.SetConfigType("toml")
 
-	viper.AddConfigPath("/etc/appname/")
-	viper.AddConfigPath("$HOME/.appname")
+	viper.AddConfigPath("/etc/c8y-device-simulator/")
+	viper.AddConfigPath("$HOME/.c8y-device-simulator")
 	viper.AddConfigPath(".")
 
 	err := viper.ReadInConfig()
 
 	if err != nil {
-		panic(fmt.Errorf("fatal error config file: %w", err))
+		slog.Error("Error loading config file", "err", err)
 	}
 }
 
