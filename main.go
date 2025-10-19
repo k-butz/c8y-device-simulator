@@ -36,7 +36,7 @@ func main() {
 
 		intervalMs := viper.GetInt("deviceSendingIntervalMs")
 		// non-blocking routine to start device simulation
-		device.Run(intervalMs, false)
+		device.Run(intervalMs, true)
 
 		slog.Info("Created Device simulation",
 			"serial", device.Serial,

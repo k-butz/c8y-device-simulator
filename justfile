@@ -6,6 +6,9 @@ run:
 build:
     CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o c8y-device-simulator main.go
 
+build-all:
+    goreleaser release --snapshot --clean
+
 build-amd64-image TAG="latest":
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o c8y-device-simulator main.go
     docker buildx build --platform linux/amd64 -t c8y-device-simulator:{{TAG}} .

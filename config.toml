@@ -1,11 +1,11 @@
 # Number of simulated devices
-countDevices = 10
+countDevices = 20000
 
 # Will be used as name and c8y_Serial of the Device
 deviceIdTemplate = "dev-serial-%05d"
 
 # Interval in which the device shall send data
-deviceSendingIntervalMs = 5000
+deviceSendingIntervalMs = 5000000
 
 # Time waited between adding new devices
-deviceAddWaitTimeMs = 500
+deviceAddWaitTimeMs = 100
