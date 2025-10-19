@@ -25,5 +25,6 @@ C8Y_PASSWORD=super-secret-password
 
 # Deploy as Cumulocity Microservices
 
-The project can be deployed as Cumulocity via `just build-amd64-image && just deploy-microservice`. This requires (just)[https://github.com/casey/just] and (go-c8y-cli)[https://goc8ycli.netlify.app/docs/introduction/] being installed. 
+The project can be deployed as Cumulocity via `just build-amd64-image && just deploy-microservice`. This requires [just](https://github.com/casey/just) and [go-c8y-cli](https://goc8ycli.netlify.app/docs/introduction/) being installed. 
+
 If you do not have these tools installed, no problem, just take a look in the project roots `justfile` to see the necessary steps to build and upload the image.
