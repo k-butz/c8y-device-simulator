@@ -1,6 +1,11 @@
 package app
 
-import "math/rand/v2"
+import (
+	"math/rand/v2"
+	"time"
+)
+
+const TS_FORMAT string = "2006-01-02T15:04:05.000Z07:00"
 
 var direction = [2]int{-1, 1}
 
@@ -22,4 +27,8 @@ func RandInt(min, max int, jitterPercent float64) int {
 		res = res + direction*int(jitter)
 	}
 	return res
+}
+
+func ToRFCTimeStamp(t time.Time) string {
+	return t.Format(TS_FORMAT)
 }

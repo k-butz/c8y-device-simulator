@@ -88,7 +88,7 @@ func configureLogger() {
 		Level: slog.LevelDebug,
 		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
 			if a.Key == slog.TimeKey && len(groups) == 0 {
-				return slog.String(slog.TimeKey, a.Value.Time().Format("2006-01-02T15:04:05.000Z07:00"))
+				return slog.String(slog.TimeKey, app.ToRFCTimeStamp(a.Value.Time()))
 			}
 			return a
 		},

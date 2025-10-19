@@ -32,7 +32,7 @@ func CreateMeasurement(arg MeasurementCreateArg) (*c8y.Response, *c8y.Measuremen
 	if mTime.IsZero() {
 		mTime = time.Now()
 	}
-	json, _ = sjson.Set(json, "time", mTime.Format("2006-01-02T15:04:05.000Z07:00"))
+	json, _ = sjson.Set(json, "time", ToRFCTimeStamp(mTime))
 	json, _ = sjson.Set(json, "c8y_Temperature.T.value", RandFloat(1, 100, 0))
 	json, _ = sjson.Set(json, "c8y_Pressure.P.value", RandFloat(1, 100, 0))
 
