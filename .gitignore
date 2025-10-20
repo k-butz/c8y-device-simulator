@@ -5,3 +5,4 @@ c8y-device-simulator
 c8y-device-simulator-darwin-arm64
 *.tar
 *.zip
+.devcontainer/*
